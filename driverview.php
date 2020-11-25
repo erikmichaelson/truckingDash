@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <style>
-		table, th, td {
+table, th, td {
   padding: 15px;
   border: 1px solid black;
 	}
@@ -10,6 +10,8 @@
 }
 </style>
 <body>
+
+<?php include("nav.php");?>
 
 <?php
 $servername = 'localhost';
@@ -51,7 +53,7 @@ if ($result->num_rows > 0) {
     <th>TruckID</th>
   </tr>
 <?php
-$query = "select truckID from drivers";
+$query = "select truckID from drivers WHERE driverID = 'DID3'";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
@@ -63,13 +65,4 @@ if ($result->num_rows > 0) {
 }
 ?>
 </table>
-<div>
-	<h3>New trip</h3>
-	<form>
-	  <label for="fname">Start City</label><br>
-	  <input type="text" id="fname" name="fname"><br>
-	  <label for="lname">End cities</label><br>
-	  <input type="text" id="lname" name="lname">
-	</form>
-</div>
 </body>
