@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Admin Dash</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -24,7 +24,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome, <strong>root</strong></span><br>
+      <?php
+	  echo '<span>Welcome, <strong>'.$username.'</strong></span>';?>
+	  <br>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
@@ -55,6 +57,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
+
+<?php
+$server='localhost';
+$username='root';
+$password='root';
+$db='project3';
+
+$conn= new mysqli($server, $username, $password, $db);
+?>
+
+
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
     <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
@@ -63,39 +76,61 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
       <div class="w3-container w3-red w3-padding-16">
-        <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-pencil w3-xxxlarge"></i></div>
         <div class="w3-right">
           <h3>52</h3>
         </div>
         <div class="w3-clear"></div>
+		<a href='approvals.php'>
+		<span>
         <h4>Approvals Needed</h4>
+		<i class="fa fa-arrow-right"></i></a>
+		</span>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-blue w3-padding-16">
-        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-map w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>99</h3>
+          <h3>
+		  <?php
+			$sql='select count(date) from trips';
+			$result= $conn->query($sql);
+			echo $result->fetch_assoc()['count(date)'];
+		  ?>
+		  </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Views</h4>
+        <h4>Trips</h4>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-truck w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>23</h3>
+          <h3>
+		  <?php
+			$sql='select count(truckID) from trucks';
+			$result= $conn->query($sql);
+			echo $result->fetch_assoc()['count(truckID)'];
+		  ?>
+		  </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Shares</h4>
+        <h4>Trucks</h4>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-orange w3-text-white w3-padding-16">
         <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>50</h3>
+          <h3>
+		  <?php
+			$sql='select count(driverID) from drivers';
+			$result= $conn->query($sql);
+			echo $result->fetch_assoc()['count(driverID)'];
+		  ?>
+		  </h3>
         </div>
         <div class="w3-clear"></div>
         <h4>Drivers</h4>
@@ -172,34 +207,22 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <hr>
 
   <div class="w3-container">
-    <h5>Countries</h5>
+    <h5>Trips by origin</h5>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+	  <?php
+	  $query='select c.cityName, c.zipcode, count(t.date) as tot_trips FROM toCities t left join cities c on c.zipcode = t.fromCity GROUP BY fromCity ORDER BY tot_trips DESC';
+	  $result=$conn->query($query);
+	  if($result->num_rows > 0) {
+	  	while($row=$result->fetch_assoc()) {
+		 echo '
       <tr>
-        <td>United States</td>
-        <td>65%</td>
-      </tr>
-      <tr>
-        <td>UK</td>
-        <td>15.7%</td>
-      </tr>
-      <tr>
-        <td>Russia</td>
-        <td>5.6%</td>
-      </tr>
-      <tr>
-        <td>Spain</td>
-        <td>2.1%</td>
-      </tr>
-      <tr>
-        <td>India</td>
-        <td>1.9%</td>
-      </tr>
-      <tr>
-        <td>France</td>
-        <td>1.5%</td>
-      </tr>
+        <td>'.$row['cityName'].'</td>
+        <td>'.$row['tot_trips'].'</td>
+      </tr>';
+	    } }
+	  ?>
     </table><br>
-    <button class="w3-button w3-dark-grey">More Countries  <i class="fa fa-arrow-right"></i></button>
+    <button class="w3-button w3-dark-grey">More Analytics <i class="fa fa-arrow-right"></i></button>
   </div>
   <hr>
   <div class="w3-container">

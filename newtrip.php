@@ -26,11 +26,36 @@ $conn = new mysqli($servernme, $username, $password, $db);
 <?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
 <div>
 	<h3>New trip</h3>
-	<form>
-	  <label for="fname">Start City</label><br>
-	  <input type="text" id="fname" name="fname"><br>
-	  <label for="lname">End cities</label><br>
-	  <input type="text" id="lname" name="lname">
+	<form method='post' action="tocities.php">
+	  <label for="startCity">Start City</label>
+	  <select type="text" id="startCity" name="startCity">
+	  <?php
+		  $query="select zipcode from cities";
+		  $result = $conn->query($query);
+		  if ($result->num_rows > 0) {
+		   while($row = $result->fetch_assoc()) {
+			  echo '<option value="'.$row['zipcode'].'">'.$row['zipcode'].'</option>';
+		   }
+		 }
+		?>
+	  </select><br>
+	  <label for="truck">Truck used</label>
+	  <select type="text" id="truck" name="truck">
+	  <?php
+		  $query="select truckID from trucks";
+		  $result = $conn->query($query);
+		  if ($result->num_rows > 0) {
+		   while($row = $result->fetch_assoc()) {
+			  echo '<option value="'.$row['truckID'].'">'.$row['truckID'].'</option>';
+		   }
+		 }
+		?>
+	  </select><br>
+	  <input type='submit' value='submit'>
 	</form>
+
 </div>
+
+<?php $conn->close();?>
+
 </body>
