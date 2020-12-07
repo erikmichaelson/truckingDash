@@ -10,11 +10,11 @@ $password = 'root';
 $db = 'project3';
 
 
-$conn = new mysqli($servernme, $username, $password, $db);
+$conn = new mysqli($servername, $username, $password, $db);
 
 $start = $_POST[startCity];
 $truckID = $_POST[truck];
-$sql='INSERT INTO trips VALUES(CURDATE(),"'.$start.'","'.$truckID.'","DID1")';
+$sql='INSERT INTO trips_for_approval VALUES(CURDATE(),"'.$start.'","'.$truckID.'","DID1","'.$username.'")';
 
 echo $sql.'<br>';
 

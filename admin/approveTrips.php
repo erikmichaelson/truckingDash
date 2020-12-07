@@ -11,7 +11,7 @@ table, th, td {
 </style>
 <body>
 
-<?php include("nav.php");?>
+<?php include("adminNav.php");?>
 
 <?php
 $servername = 'localhost';
@@ -20,14 +20,15 @@ $password = 'root';
 $db = 'project3';
 
 
-$conn = new mysqli($servernme, $username, $password, $db);
+$conn = new mysqli($servername, $username, $password, $db);
 ?>
 
 <?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
 
-<h3>Your trips awaiting approval:</h3>
+<h3>All trips awaiting approval:</h3>
+<form method='post' action='addTrips.php'>
 <?php
-$query = "select * from trips_for_approval where driver='DID1'";
+$query = "select * from trips_for_approval";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
 echo "
@@ -35,19 +36,31 @@ echo "
   <tr>
     <th>Date</th>
     <th>From City</th> 
-    <th>Dest Cities</th>
+    <th>Truck</th>
+    <th>DriverID</th>
+    <th><input type='submit' value='Approve'></th>
   </tr>	";
  while($row = $result->fetch_assoc()) {
+	$newtrip = [
+		$row['date'],
+		$row['fromCity'],
+		$row['driverID']];
+	echo var_dump($newtrip[2]);
  	echo "
   <tr>
     <td>".$row['date']."</td>
     <td>".$row['fromCity']."</td> 
+    <td>".$row['truckID']."</td> 
     <td>".$row['driverID']."</td> 
+	<td>
+  	  <input type='checkbox' id='addTrip' name='addTrip' value='".$row['date'].'_'.$row['fromCity'].'_'.$row['truckID'].'_'.$row['driverID']."'>
+	</td>
   </tr>";
   }
 } else {
 echo "<i>No trips awaiting approval</i>"; }
 ?>
+</form>
 </table>
 <h3>Your recent trips:</h3>
 <table style="width:80%">

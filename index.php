@@ -16,7 +16,8 @@ echo "Connected successfully";
 ?>
 
 <br>
-<a href='driverview.php'>driverview</a>
+<a href='driver/driverview.php'>driverview</a>
+<a href='index1.php'>login page</a>
 <br>
 
 <table style="width:40%">
