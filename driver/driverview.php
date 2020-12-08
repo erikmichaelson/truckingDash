@@ -72,6 +72,25 @@ if ($result->num_rows > 0) {
 ?>
 </table>
 
+<h3>Your current email:</h3>
+<?php
+$query = "select email from drivers WHERE driverID = 'DID3'";
+$result = $conn->query($query);
+if ($result->num_rows > 0) {
+ while($row = $result->fetch_assoc()) {
+ 	echo "
+  <tr>
+    <td>".$row['email']."</td>
+  </tr>";
+  }
+}
+?>
+<form method='post' action='setEmail.php'>
+	<label for='email' value='enter email'>change email:</label>
+	<input type='text' id='email' name='email'>
+	<input type='submit' value="submit">
+</form>
+
 <h3>Your trucks:</h3>
 <table style="width:20%">
   <tr>
