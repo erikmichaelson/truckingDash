@@ -1,3 +1,17 @@
+<?php
+session_start();
+$servername = 'localhost';
+$username = $_SESSION['login'];
+$password = $_SESSION['pass'];
+$db = 'project3';
+
+$conn = new mysqli($servername, $username, $password, $db);
+
+$DID = $_SESSION['DID'];
+?>
+<?php include("nav.php");?>
+
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <style>
 table, th, td {
@@ -10,18 +24,6 @@ table, th, td {
 }
 </style>
 <body>
-
-<?php include("nav.php");?>
-
-<?php
-$servername = 'localhost';
-$username = 'root';
-$password = 'root';
-$db = 'project3';
-
-
-$conn = new mysqli($servernme, $username, $password, $db);
-?>
 
 <?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
 <div>

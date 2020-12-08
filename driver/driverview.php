@@ -1,3 +1,15 @@
+<?php
+session_start();
+$servername = 'localhost';
+$username = $_SESSION['login'];
+$password = $_SESSION['pass'];
+$db = 'project3';
+
+$conn = new mysqli($servername, $username, $password, $db);
+?>
+<?php include("nav.php");?>
+
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <style>
 table, th, td {
@@ -11,23 +23,11 @@ table, th, td {
 </style>
 <body>
 
-<?php include("nav.php");?>
-
-<?php
-$servername = 'localhost';
-$username = 'root';
-$password = 'root';
-$db = 'project3';
-
-
-$conn = new mysqli($servernme, $username, $password, $db);
-?>
-
-<?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
+<?php echo "<h1>Hello, <b>".$_SESSION['login'].'</b></h1>';?>
 
 <h3>Your trips awaiting approval:</h3>
 <?php
-$query = "select * from trips_for_approval where driver='DID1'";
+$query = "select * from trips_for_approval where driverid='".$_SESSION['DID']."'";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
 echo "
@@ -57,7 +57,7 @@ echo "<i>No trips awaiting approval</i>"; }
     <th>Dest Cities</th>
   </tr>
 <?php
-$query = "select * from trips";
+$query = "select * from trips where driverid ='".$_SESSION['DID'].'"';
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
@@ -74,7 +74,7 @@ if ($result->num_rows > 0) {
 
 <h3>Your current email:</h3>
 <?php
-$query = "select email from drivers WHERE driverID = 'DID3'";
+$query = "select email from drivers WHERE driverID = '".$_SESSION['DID']."'";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
