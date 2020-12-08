@@ -1,3 +1,12 @@
+<?php
+$servername = 'localhost';
+$username = 'root';
+$password = 'root';
+$db = 'project3';
+
+
+$conn = new mysqli($servername, $username, $password, $db);
+?>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <style>
 table, th, td {
@@ -13,15 +22,6 @@ table, th, td {
 
 <?php include("adminNav.php");?>
 
-<?php
-$servername = 'localhost';
-$username = 'root';
-$password = 'root';
-$db = 'project3';
-
-
-$conn = new mysqli($servername, $username, $password, $db);
-?>
 
 <?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
 

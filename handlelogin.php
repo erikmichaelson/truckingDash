@@ -7,20 +7,38 @@
       $mypassword = $_POST['password']; 
 		$conn = new mysqli($server, $myusername, $mypassword, $db);
 		session_start();
-		$sql = 'SELECT driverid FROM driverByUsername WHERE User = "'.$myusername.'"';
-		$result = $conn->query($sql);
-		$DID = $result->fetch_assoc()['driverid'];
-		if($result->num_rows > 0) {
+		$adquery = 'SHOW GRANTS';
+		$result1 = $conn->query($adquery);
+		$grants = $result1->fetch_assoc();
+		$all = 'ALL PRIVILEGES';
+		$perm = ($grants["Grants for ".$myusername."@localhost"]);
+		echo $perm.'<br>';
+		if (strpos($perm, $all) !== false) {
 #			session_register("myusername");
 			$_SESSION['login'] = $myusername;
 			$_SESSION['pass'] = $mypassword;
 			$_SESSION['DID'] = $DID;
-			echo 'transfering';
-			header('Location: driver/driverview.php',TRUE,301);
+			header('Location: admin/dashboard.php',TRUE,301);
 			exit;
 		} else {
-			header('Location: login.php');
-			exit;
+			$sql = 'SELECT driverid FROM driverByUsername WHERE User = "'.$myusername.'"';
+			$result = $conn->query($sql);
+			echo $sql;
+			$DID = $result->fetch_assoc()['driverid'];
+			echo $DID;
+			if($result->num_rows > 0) {
+				echo 'second if';
+		#		session_register("myusername");
+				$_SESSION['login'] = $myusername;
+				$_SESSION['pass'] = $mypassword;
+				$_SESSION['DID'] = $DID;
+				header('Location: driver/driverview.php',TRUE,301);
+				exit;
+			} else {
+				echo 'else block';
+				echo strpos($perm, $all);
+		#		header('Location: index.php');
+				exit;
+			}
 		}
-#	 }
 

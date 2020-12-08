@@ -92,21 +92,24 @@ if ($result->num_rows > 0) {
 </form>
 
 <h3>Your trucks:</h3>
+<form method='post' action='trucks.php'>
 <table style="width:20%">
   <tr>
     <th>TruckID</th>
   </tr>
 <?php
-$query = "select truckID from drivers WHERE driverID = 'DID3'";
+$query = "select truckID from drivers WHERE driverID = '".$_SESSION['DID']."'";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
  	echo "
   <tr>
-    <td>".$row['truckID']."</td>
+    <td><input type='submit' name='submit'>".$row['truckID']."</input></td>
+	<input type='hidden' id='truckID' name='truckID' value='".$row['truckID']."'>
   </tr>";
   }
 }
 ?>
 </table>
+</form>
 </body>

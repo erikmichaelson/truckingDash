@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <html>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -52,11 +55,14 @@
 
 <!-- Top Navigation Menu -->
 <div class="topnav">
-  <a href="#home" class="active">Menu</a>
+  <?php
+  echo '
+  <a href="driverview.php" class="active">Hello, <b>'.$_SESSION['login'].'</b></a>';
+  ?>
   <!-- Navigation links (hidden by default) -->
   <div id="myLinks">
-    <a href="driverview.php">View</a>
-    <a href="newtrip.php">New trip</a>
+    <a href="driverview.php">Home</a>
+    <a href="newtrip.php">Your trips</a>
     <a href="driverUpdate.php">Update trucks</a>
   </div>
   <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
