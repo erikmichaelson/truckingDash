@@ -7,8 +7,9 @@ $db = 'project3';
 
 $conn = new mysqli($servername, $username, $password, $db);
 
-$tID = $_POST['truckID'];
 $DID = $_SESSION['DID'];
+$query = 'select truckID from drivers where driverID="'.$DID.'"';
+$tID = $conn->query($query)->fetch_assoc()['truckID'];
 
 $sql = "SELECT * FROM pendingtruckswitches WHERE DriverID = '".$DID."'";
 $result = $conn->query($sql);

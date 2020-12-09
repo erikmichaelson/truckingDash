@@ -1,7 +1,8 @@
 <?php
+session_start();
 $servername = 'localhost';
-$username = 'root';
-$password = 'root';
+$username = $_SESSION['login'];
+$password = $_SESSION['pass'];
 $db = 'project3';
 
 
@@ -23,9 +24,9 @@ table, th, td {
 <?php include("adminNav.php");?>
 
 
-<?php echo "<h1>Hello, <b>".$username.'</b></h1>';?>
+<h1>Things to approve:</h1>
 
-<h3>All trips awaiting approval:</h3>
+<h3>Trips awaiting approval:</h3>
 <form method='post' action='addTrips.php'>
 <?php
 $query = "select * from trips_for_approval";
@@ -38,22 +39,19 @@ echo "
     <th>From City</th> 
     <th>Truck</th>
     <th>DriverID</th>
-    <th><input type='submit' value='Approve'></th>
+    <th>Dest City</th>
+    <th><input type='submit' name='choice' value='Reject'><input type='submit' name='choice' value='Approve'></th>
   </tr>	";
  while($row = $result->fetch_assoc()) {
-	$newtrip = [
-		$row['date'],
-		$row['fromCity'],
-		$row['driverID']];
-	echo var_dump($newtrip[2]);
  	echo "
   <tr>
     <td>".$row['date']."</td>
     <td>".$row['fromCity']."</td> 
     <td>".$row['truckID']."</td> 
     <td>".$row['driverID']."</td> 
+    <td>".$row['tocity']."</td> 
 	<td>
-  	  <input type='checkbox' id='addTrip' name='addTrip' value='".$row['date'].'_'.$row['fromCity'].'_'.$row['truckID'].'_'.$row['driverID']."'>
+  	  <input type='checkbox' id='addTrip' name='addTrip' value='".$row['date'].'_'.$row['fromCity'].'_'.$row['truckID'].'_'.$row['driverID'].'_'.$row['tocity']."'>
 	</td>
   </tr>";
   }
@@ -62,45 +60,42 @@ echo "<i>No trips awaiting approval</i>"; }
 ?>
 </form>
 </table>
-<h3>Your recent trips:</h3>
-<table style="width:80%">
-  <tr>
-    <th>Date</th>
-    <th>From City</th> 
-    <th>Dest Cities</th>
-  </tr>
+
+
+
+<h3>Trucks changes awaiting approval:</h3>
+<form method='post' action='chgTrucks.php'>
 <?php
-$query = "select * from trips";
+$query = "select * from pendingtruckswitches";
 $result = $conn->query($query);
 if ($result->num_rows > 0) {
+echo "
+<table style='width:80%'>
+  <tr>
+    <th>From Truck</th>
+    <th>To Truck</th>
+    <th>DriverID</th>
+    <th>Approve</th>
+  </tr>	";
  while($row = $result->fetch_assoc()) {
+	echo $row;
  	echo "
   <tr>
-    <td>".$row['date']."</td>
-    <td>".$row['fromCity']."</td> 
-    <td>".$row['driverID']."</td> 
+	<td>".$row['truckID']."</td>
+	<td>".$row['newTruck']."</td>
+	<td>".$row['DriverID']."</td>
+	<td>
+<input type='submit' name='choice' value='Reject'><input type='submit' name='choice' value='Approve'>
+  	  <input type='hidden' name='change' value='".$row['newTruck']."'>
+  	  <input type='hidden' name='DriverID' value='".$row['DriverID']."'>
+	</td>
   </tr>";
   }
-}
+} else {
+echo "<i>No truck changes awaiting approval</i>"; }
 ?>
+</form>
 </table>
 
-<h3>Your trucks:</h3>
-<table style="width:20%">
-  <tr>
-    <th>TruckID</th>
-  </tr>
-<?php
-$query = "select truckID from drivers WHERE driverID = 'DID3'";
-$result = $conn->query($query);
-if ($result->num_rows > 0) {
- while($row = $result->fetch_assoc()) {
- 	echo "
-  <tr>
-    <td>".$row['truckID']."</td>
-  </tr>";
-  }
-}
-?>
-</table>
+
 </body>

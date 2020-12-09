@@ -15,7 +15,7 @@ $update = "insert into pendingtruckswitches VALUES('".$tID."','".$newreq."','".$
 echo $update;
 if($conn->query($update)===TRUE) {
 	echo 'it worked';
-	header('location: trucks.php', 301, TRUE);
+	header('Location: trucks.php', TRUE, 301);
 } else {
 echo $conn->error; }
 ?>

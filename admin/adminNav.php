@@ -7,7 +7,7 @@
 
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #555;
   position: relative;
 }
 
@@ -42,7 +42,7 @@
 
 /* Style the active link (or home/logo) */
 .active {
-  background-color: #4CAF50;
+  background-color: #432e9b;
   color: white;
 }
 
@@ -57,14 +57,15 @@
 <div class="topnav">
   <?php
   echo '
-  <a href="driverview.php" class="active">Hello, <b>'.$_SESSION['login'].'</b></a>';
+  <a href="dashboard.php" class="active">Hello, <b>'.$_SESSION['login'].'</b></a>';
   ?>
   <!-- Navigation links (hidden by default) -->
   <div id="myLinks">
-    <a href="driverview.php">Home</a>
-    <a href="newtrip.php">Your trips</a>
-    <a href="trucks.php">Your trucks</a>
-  	<a href='../logout.php'>LOGOUT</a>
+    <a href="dashboard.php">Home</a>
+    <a href="trips.php">All trips</a>
+    <a href="approvetrips.php">Approve trips</a>
+    <a href="approvetrucks.php">Approve trucks</a>
+    <a href="../logout.php">LOGOUT</a>
   </div>
   <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
   <a href="javascript:void(0);" class="icon" onclick="openNav()">

@@ -27,7 +27,7 @@ foreach ($cities as $c) {
 	} else {
 		echo $conn->error;
 	}
-	header('location: newtrip.php', 301, TRUE);
+	header('location: newtrip.php', TRUE, 301);
 }
 
 ?>

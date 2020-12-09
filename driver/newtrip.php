@@ -25,19 +25,15 @@ table, th, td {
 </style>
 <body>
 
-<div style='display: grid; grid-auto-columns: 47vw;'>
-	<div style='grid-column: 1;'>
+<div>
 
 <h1>Your trip overview:</h1>
-<h3>Your trips awaiting approval:</h3>
 <?php
 $query = "select * from trips_for_approval where driverid='".$DID."';";
-echo $query;
 $result = $conn->query($query);
-if( $conn->error ) {
-	echo $conn->error;
-} else if ($result->num_rows > 0) {
+if ($result->num_rows > 0) {
 echo "
+<h3>Your trips awaiting approval:</h3> 
 <table style='width:80%'>
 <tr>
 <th>Date</th>
@@ -49,19 +45,22 @@ echo "
 <tr>
 <td>".$row['date']."</td>
 <td>".$row['fromCity']."</td> 
-<td>".$row['driverID']."</td> 
+<td>".$row['tocity']."</td> 
 </tr>";
-}
+} } else if( $conn->error ) {
+	echo $conn->error;
 } else {
 	echo '<i>All your trips are approved!</i>'; }
 ?>
-</div>
-<div style='grid-column: 2;'>
+
+
+<?php
+echo '
 <h2>New trip</h2>
-	<form method='post' action="tocities.php">
+	<form method="post" action="tocities.php">
 	  <label for="startCity">Start City</label>
 	  <select type="text" id="startCity" name="startCity">
-	  <?php
+	  ';
 		  $query="select zipcode from cities";
 		  $result = $conn->query($query);
 		  if ($result->num_rows > 0) {
@@ -107,7 +106,6 @@ echo "
 	</table>
 	  <input type='submit' value='submit' style='margin:10px'>
 	</form>
-	</div>
 
 </div>
 

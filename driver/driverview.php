@@ -92,7 +92,6 @@ if ($result->num_rows > 0) {
 </form>
 
 <h3>Your trucks:</h3>
-<form method='post' action='trucks.php'>
 <table style="width:20%">
   <tr>
     <th>TruckID</th>
@@ -104,12 +103,10 @@ if ($result->num_rows > 0) {
  while($row = $result->fetch_assoc()) {
  	echo "
   <tr>
-    <td><input type='submit' name='submit'>".$row['truckID']."</input></td>
-	<input type='hidden' id='truckID' name='truckID' value='".$row['truckID']."'>
+    <td><a href='trucks.php'>".$row['truckID']."</a></td>
   </tr>";
   }
 }
 ?>
 </table>
-</form>
 </body>
