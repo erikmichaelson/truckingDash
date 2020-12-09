@@ -7,6 +7,11 @@
 
 	$conn = new mysqli($server, $user, $pass, $db);
 
+	
+	if ($_SESSION['DID']) { 
+		header('Location: ../index.php', TRUE, 301);
+	}
+
 
 ?>
 <!DOCTYPE html>

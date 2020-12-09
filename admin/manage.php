@@ -5,6 +5,9 @@ $username = $_SESSION['login'];
 $password = $_SESSION['pass'];
 $db = 'project3';
 
+	if ($_SESSION['DID']) { 
+		header('Location: ../index.php', TRUE, 301);
+	}
 
 $conn = new mysqli($servername, $username, $password, $db);
 ?>
